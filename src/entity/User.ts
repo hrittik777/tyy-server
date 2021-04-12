@@ -3,6 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Entity("users")
 export class User extends BaseEntity {
+    @BeforeInsert()
+    addId() {
+        this.id = uuidv4();
+    }
+
     @PrimaryColumn('uuid')
     id: string;
 
@@ -12,8 +17,6 @@ export class User extends BaseEntity {
     @Column('text')
     password: string;
 
-    @BeforeInsert()
-    addId() {
-        this.id = uuidv4();
-    }
+    @Column('boolean', { default: false })
+    confirmed: boolean;
 }
