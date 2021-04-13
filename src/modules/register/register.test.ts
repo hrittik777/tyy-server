@@ -23,7 +23,7 @@ beforeAll(async () => {
 });
 
 describe('Register User', () => {
-    it('test for register user', async () => {
+    it('tests for register user', async () => {
         const response = await request(process.env.TEST_HOST as string, mutation(testEmail, testPassword));
         expect(response).toEqual({ register: null });
 
@@ -35,13 +35,13 @@ describe('Register User', () => {
         expect(user.password).not.toEqual(testPassword);
     });
 
-    it('test for duplicate emails', async () => {
+    it('tests for duplicate emails', async () => {
         const response2: any = await request(process.env.TEST_HOST as string, mutation(testEmail, testPassword));
         expect(response2.register).toHaveLength(1);
         expect(response2.register[0]).toEqual({ path: 'email', message: duplicateEmail });
     });
 
-    it('test for bad email', async () => {
+    it('tests for bad email', async () => {
         const response3: any = await request(process.env.TEST_HOST as string, mutation(badEmail, testPassword));
         expect(response3).toEqual({
             register: [
@@ -51,7 +51,7 @@ describe('Register User', () => {
         });
     });
 
-    it('test for bad password', async () => {
+    it('tests for bad password', async () => {
         const response4: any = await request(process.env.TEST_HOST as string, mutation(testEmail2, badPassword));
         expect(response4).toEqual({
             register: [
@@ -60,7 +60,7 @@ describe('Register User', () => {
         });
     });
 
-    it('test for bad password and bad email', async () => {
+    it('tests for bad password and bad email', async () => {
         const response5: any = await request(process.env.TEST_HOST as string, mutation(badEmail, badPassword));
         expect(response5).toEqual({
             register: [
