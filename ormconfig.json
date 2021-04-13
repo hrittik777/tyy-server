@@ -6,7 +6,7 @@
         "port": 5432,
         "username": "postgres",
         "password": "postgres",
-        "database": "thrillyy",
+        "database": "tyy",
         "synchronize": true,
         "logging": false,
         "entities": [
@@ -31,7 +31,7 @@
         "port": 5432,
         "username": "postgres",
         "password": "postgres",
-        "database": "thrillyy-test",
+        "database": "tyy-test",
         "synchronize": true,
         "logging": false,
         "dropSchema": true,
