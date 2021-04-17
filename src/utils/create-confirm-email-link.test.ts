@@ -21,7 +21,6 @@ afterAll(async () => {
     conn.close();
 });
 
-
 test('tests for user confirmation and deleting redis key after', async () => {
 
     const url = await createConfirmEmailLink(process.env.TEST_HOST as string, userId as string, redis);

@@ -1,27 +1,12 @@
-import * as path from "path";
-import * as fs from "fs";
-import { importSchema } from "graphql-import";
 import { GraphQLServer } from "graphql-yoga";
-import { mergeSchemas, makeExecutableSchema } from "graphql-tools";
-import { GraphQLSchema } from "graphql";
 import { redis } from './redis';
-
 import { createTypeORMConnection } from "./utils/create-typeORM-connection";
 import { confirmEmail } from "./routes/confirm-email";
+import { genSchema } from "./utils/gen-schema";
 
 export const startServer = async () => {
-    const schemas: GraphQLSchema[] = [];
-    const folders = fs.readdirSync(path.join(__dirname, "./modules"));
-
-    folders.forEach(folder => {
-        const { resolvers } = require(`./modules/${folder}/resolvers`);
-        const typeDefs = importSchema(path.join(__dirname, `./modules/${folder}/schema.graphql`));
-
-        schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
-    });
-
     const server = new GraphQLServer({
-        schema: mergeSchemas({ schemas }),
+        schema: genSchema(),
         context: ({ request }) => ({
             redis,
             url: request.protocol + '://' + request.get('host')

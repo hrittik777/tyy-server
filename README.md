@@ -7,5 +7,6 @@ Steps to run this project:
 3. Start redis server using command `sudo service redis-server start`
 4. Change to postgres user using command `sudo -i -u postgres`
 5. Start postgresql using command `sudo service postgresql start`
-6. Start server on localhost:4000 using command `yarn start`
-7. Run tests using command `yarn test`
+6. Generate types for all schemas using command `yarn gen-schema-types`
+7. Start server on localhost:4000 using command `yarn start`
+8. Run tests using command `yarn test`
