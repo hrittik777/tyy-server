@@ -1,19 +1,25 @@
 import * as Redis from 'ioredis';
 import fetch from 'node-fetch';
+import { Connection } from 'typeorm';
 import { User } from '../entity/User';
 import { createConfirmEmailLink } from './create-confirm-email-link';
 import { createTypeORMConnection } from './create-typeORM-connection';
 
 let userId = '';
+let conn: Connection;
 let badUserId = '+';
 const testEmail = 'test@gmail.com';
 const testPassword = 'Admin@123';
 const redis = new Redis();
 
 beforeAll(async () => {
-    await createTypeORMConnection();
+    conn = await createTypeORMConnection();
     const user = await User.create({ email: testEmail, password: testPassword }).save();
     userId = user.id;
+});
+
+afterAll(async () => {
+    conn.close();
 });
 
 describe('email confirmation url', () => {

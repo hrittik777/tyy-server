@@ -40,7 +40,7 @@ export const startServer = async () => {
         } else {
             res.send('invalid');
         }
-    })
+    });
 
     await createTypeORMConnection();
     const app = await server.start({
