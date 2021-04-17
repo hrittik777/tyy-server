@@ -1,4 +1,4 @@
-# Awesome Project Build with TypeORM
+# TypeScript GraphQL Server Boilerplate
 
 Steps to run this project:
 
