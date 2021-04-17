@@ -4,14 +4,13 @@ import { importSchema } from "graphql-import";
 import { GraphQLServer } from "graphql-yoga";
 import { mergeSchemas, makeExecutableSchema } from "graphql-tools";
 import { GraphQLSchema } from "graphql";
-import * as Redis from 'ioredis';
+import { redis } from './redis';
 
 import { createTypeORMConnection } from "./utils/create-typeORM-connection";
-import { User } from "./entity/User";
+import { confirmEmail } from "./routes/confirm-email";
 
 export const startServer = async () => {
     const schemas: GraphQLSchema[] = [];
-    const redis = new Redis();
     const folders = fs.readdirSync(path.join(__dirname, "./modules"));
 
     folders.forEach(folder => {
@@ -29,18 +28,7 @@ export const startServer = async () => {
         })
     });
 
-    server.express.get('/confirm/:id', async (req, res) => {
-        const { id } = req.params;
-        const userId = await redis.get(id);
-
-        if (userId) {
-            await User.update({ id: userId }, { confirmed: true });
-            await redis.del(id);
-            res.send('ok');
-        } else {
-            res.send('invalid');
-        }
-    });
+    server.express.get('/confirm/:id', confirmEmail);
 
     await createTypeORMConnection();
     const app = await server.start({
